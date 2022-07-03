@@ -3,6 +3,7 @@ import * as type from '../Types/userType'
 //Import main api as setted in another file
 import {mainApi as api} from '../../Lib/api'
 
+
 //Action for login
 export const login = (data) =>{
     //action always return calback function that have dispacth as parameter, the dispacth comes from redux
@@ -14,7 +15,12 @@ export const login = (data) =>{
                 //set token in local storage as we have token from the response, this token will not appear even the page is refreshed
                 localStorage.setItem("token", response.data.access_token)
                 //dispatch the data that needed in frontend and set it to the store
-                dispatch({type: type.GET_USER_SUCCESS, data, token: response.data.access_token, success:"Login Success"})
+                dispatch({
+                    type: type.GET_USER_SUCCESS, 
+                    data, 
+                    token: response.data.access_token, 
+                    success:"Login Success"
+                })
             }).catch(err =>{
                 //handle Error
                 if (err && err.response && err.response.data) {

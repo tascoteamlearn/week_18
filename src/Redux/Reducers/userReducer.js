@@ -31,6 +31,7 @@ const userReducer = (state = initialUserState, action) =>{
                 loading: false,
                 data: action.data,
                 success: action.success,
+                token: action.token,
             });
 
         // When fetching error, manipulate the state based on received data from api that sent from action

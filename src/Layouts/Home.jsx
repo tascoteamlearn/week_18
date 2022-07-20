@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from "react-redux"
 
 //Action
-import { getAllProduct } from '../Redux/Actions/productAction'
+import { getAllProduct, addToCart } from '../Redux/Actions/productAction'
 
 //Bootstrap 
-import {Card, Button, Carousel} from 'react-bootstrap'
+import {Card, Button, Carousel, Pagination} from 'react-bootstrap'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -25,6 +25,41 @@ export default function Home() {
     }
   },[product])
 
+  const handleClickProduct = (item) =>{
+    // console.log("see item", item)
+    dispatch(addToCart(item))
+  }
+  const allproduct = useSelector(state=> state.product.listProduct)
+  const [activePage, setaActivePage]= useState(1)
+  const [items, setItems] = useState([])
+
+  useEffect(()=>{
+    if (allproduct) {
+      let holdItems = []
+      for (let number = 1; number <= Math.ceil(allproduct.length/12); number++) {
+        holdItems.push(
+          <div
+            key={number} 
+            active={number === activePage} 
+            style={{
+              backgroundColor:"white",
+              padding:"5px"
+            }}
+            onClick={(e)=> {
+              setaActivePage(number)
+              const recentData = allproduct
+              const filterData = recentData.slice(10*(number-1), 10*number)
+              setProductList(filterData)
+            }}
+          >
+            {number}
+          </div>
+        );
+      }
+      setItems(holdItems)
+    }
+  },[allproduct, items])
+  
 
 
   return (
@@ -36,7 +71,7 @@ export default function Home() {
             productList.length > 0 &&
             productList.map((item, index)=>{
               return (
-                <Card style={{ width: '18rem' }} key={index}>
+                <Card style={{ width: '18rem' }} key={index} onClick={()=>handleClickProduct(item)} >
                   <Carousel>
                     {
                       item.images &&
@@ -73,6 +108,7 @@ export default function Home() {
             })
           }
         </div>
+        <div style={{display:"flex", gap:"10px"}}>{items}</div>
     </div>
   )
 }

@@ -5,6 +5,7 @@ const initialProductState = {
     listProduct:[],
     loading:false,
     error:null,
+    cart:[],
 }
 
 /*
@@ -35,6 +36,10 @@ const productReducer = (state = initialProductState, action) =>{
             return Object.assign({}, state,{
                 loading: false,
                 error: null,
+            });
+        case type.ADD_TO_CART:
+            return Object.assign({}, state,{
+                cart:[...state.cart, action.data]
             });
         default:
             return state;

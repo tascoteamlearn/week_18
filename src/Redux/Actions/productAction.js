@@ -11,3 +11,9 @@ export const getAllProduct = () =>{
         })
     }
 } 
+
+export const addToCart = (item) =>{
+    return (dispatch) =>{
+        dispatch({type: type.ADD_TO_CART, data: item})
+    }
+} 
